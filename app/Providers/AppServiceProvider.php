@@ -21,8 +21,12 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        //
+		\App\Models\User::observe(\App\Observers\UserObserver::class);
+		\App\Models\Topic::observe(\App\Observers\TopicObserver::class);
+
+        // 设置 Paginator 的默认风格是 Bootstrap 风格
+        \Illuminate\Pagination\Paginator::useBootstrap();
     }
 }
