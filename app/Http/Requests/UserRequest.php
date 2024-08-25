@@ -12,9 +12,9 @@ class UserRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,9 +29,9 @@ class UserRequest extends FormRequest
             'email' => 'required|email',
             'introduction' => 'max:80',
             'avatar' => 'mimes:png,jpg,gif,jpeg|dimensions:min_width=208,min_height=208',
-            //
         ];
     }
+
     /**
      * 自定义错误消息
      *
