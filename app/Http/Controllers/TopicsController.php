@@ -21,12 +21,17 @@ class TopicsController extends Controller
      * 显示话题列表
      * 用 with() 方法预加载了话题数据的用户数据和分类数据，预加载是为了避免 N+1 问题
      *
+     * @param Request $request
+     * @param Topic $topic
      * @return Factory|View|Application
      */
-	public function index(): Factory|View|Application
+	public function index(Request $request, Topic $topic): Factory|View|Application
     {
-		$topics = Topic::with('user', 'category')->paginate(30);
-		return view('topics.index', compact('topics'));
+        $topics = $topic->withOrder($request->order)
+            ->with('user', 'category') // 预加载 user 和 category 关联，避免 N+1 问题
+            ->paginate(20);
+        return view('topics.index', compact('topics'));
+
 	}
 
     public function show(Topic $topic)
