@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Topic;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TopicRequest;
@@ -14,9 +17,15 @@ class TopicsController extends Controller
         $this->middleware('auth', ['except' => ['index', 'show']]);
     }
 
-	public function index()
-	{
-		$topics = Topic::paginate();
+    /**
+     * 显示话题列表
+     * 用 with() 方法预加载了话题数据的用户数据和分类数据，预加载是为了避免 N+1 问题
+     *
+     * @return Factory|View|Application
+     */
+	public function index(): Factory|View|Application
+    {
+		$topics = Topic::with('user', 'category')->paginate(30);
 		return view('topics.index', compact('topics'));
 	}
 
