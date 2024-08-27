@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Topic;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TopicRequest;
+use Illuminate\Support\Facades\Auth;
 
 class TopicsController extends Controller
 {
@@ -39,14 +42,27 @@ class TopicsController extends Controller
         return view('topics.show', compact('topic'));
     }
 
-	public function create(Topic $topic)
-	{
-		return view('topics.create_and_edit', compact('topic'));
+	public function create(Topic $topic): Factory|View|Application
+    {
+		$categories=Category::all();
+        return view('topics.create_and_edit', compact('topic','categories'));
 	}
 
-	public function store(TopicRequest $request)
-	{
-		$topic = Topic::create($request->all());
+    /**
+     * @param TopicRequest $request
+     * @param Topic $topic
+     * @return RedirectResponse
+     */
+	public function store(TopicRequest $request,Topic $topic): RedirectResponse
+    {
+        // Topic $topic 是依赖注入，这里的 $topic 是一个空的 Topic 实例
+        // $request->all() 获取所有用户的请求数据
+        // $topic->fill() 方法将 $request->all() 返回的数据填充到 $topic 实例中
+        // $topic->user_id = Auth::id() 为话题的 user_id 字段赋值为当前登录用户的 ID
+        // $topic->save() 方法将数据保存到数据库
+        $topic->fill($request->all());
+        $topic->user_id = Auth::id();
+        $topic->save();
 		return redirect()->route('topics.show', $topic->id)->with('message', 'Created successfully.');
 	}
 

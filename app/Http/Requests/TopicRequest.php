@@ -4,7 +4,12 @@ namespace App\Http\Requests;
 
 class TopicRequest extends Request
 {
-    public function rules()
+    /**
+     * 自定义验证规则
+     *
+     * @return array|string[]
+     */
+    public function rules(): array
     {
         switch($this->method())
         {
@@ -20,7 +25,9 @@ class TopicRequest extends Request
             case 'PATCH':
             {
                 return [
-                    // UPDATE ROLES
+                    'title' => 'required|min:2',
+                    'body' => 'required|min:3',
+                    'category_id' => 'required|numeric',
                 ];
             }
             case 'GET':
@@ -32,10 +39,16 @@ class TopicRequest extends Request
         }
     }
 
-    public function messages()
+    /**
+     * 自定义错误信息
+     *
+     * @return string[]
+     */
+    public function messages(): array
     {
         return [
-            // Validation messages
+            'title.min' => '标题至少需要两个字符',
+            'body.min' => '内容至少需要三个字符',
         ];
     }
 }

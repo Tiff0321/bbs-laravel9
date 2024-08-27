@@ -9,7 +9,10 @@ class Topic extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'body', 'user_id', 'category_id', 'reply_count', 'view_count', 'last_reply_user_id', 'order', 'excerpt', 'slug'];
+    /**
+     * @var string[]
+     */
+    protected $fillable = ['title', 'body','category_id',  'excerpt', 'slug'];
 
     /**
      * 定义于 category 的关联
