@@ -77,7 +77,17 @@
     <script>
         $(document).ready(function () {
             let editor = new Simditor({
-                textarea: $('#editor')
+                textarea: $('#editor'),
+                upload: {
+                    url: '{{ route('topics.upload_image') }}', // 文件上传的接口地址
+                    params: { // params 表单提交的参数列表
+                        _token: '{{ csrf_token() }}' // Laravel 的 CSRF-TOKEN
+                    },
+                    fileKey: 'upload_file', // 文件上传的参数名，这个参数会是后端接受文件的参数
+                    connectionCount: 3, // 最多只能同时上传 3 个文件
+                    leaveConfirm: '文件上传中，关闭此页面将取消上传。' // 上传过程中，用户关闭页面的提示
+                },
+                pasteImage: true, // 设定是否支持图片粘贴上传
             });
         });
     </script>
