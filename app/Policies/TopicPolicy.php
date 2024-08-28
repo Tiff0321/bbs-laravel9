@@ -7,13 +7,19 @@ use App\Models\Topic;
 
 class TopicPolicy extends Policy
 {
-    public function update(User $user, Topic $topic)
+    /**
+     * 授权策略，只有话题作者才能创建和更新话题
+     *
+     * @param User $user
+     * @param Topic $topic
+     * @return bool
+     */
+    public function update(User $user, Topic $topic): bool
     {
-        // return $topic->user_id == $user->id;
-        return true;
+         return $topic->user_id == $user->id;
     }
 
-    public function destroy(User $user, Topic $topic)
+    public function destroy(User $user, Topic $topic): bool
     {
         return true;
     }
