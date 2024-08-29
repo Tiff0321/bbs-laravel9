@@ -62,3 +62,5 @@ Route::resource('categories', 'CategoriesController', ['only' => ['show']]);
 Route::post('upload_image', 'TopicsController@uploadImage')->name('topics.upload_image');
 //回复页面
 Route::resource('replies', 'RepliesController', ['only' => ['store', 'destroy']]);
+// 通知列表
+Route::resource('notifications', 'NotificationsController', ['only' => ['index']]);
