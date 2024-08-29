@@ -7,11 +7,56 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @property integer id ID
+ * @property string name 用户名
+ * @property string email 邮箱
+ * @property string password 密码
+ * @property string introduction 个人简介
+ * @property string avatar 头像
+ * @property integer notification_count 未读消息数量
+ * @property string email_verified_at 邮箱验证时间
+ * @property string remember_token 记住我
+ * @property string created_at 创建时间
+ * @property string updated_at 更新时间
+ * @property Topic topics 话题
+ * @property Reply replies 回复
+ */
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory;
+
+    // 引入消息通知相关功能
+    use Notifiable {
+        notify as protected laravelNotify;
+    }
+
+    /**
+     * 通知用户，这里我们对 notify 方法进行了重写
+     *
+     * @param mixed $instance
+     * @return void
+     */
+    public function notify($instance): void
+    {
+        // 如果要通知的人是当前用户，且不是在验证邮箱，就不必通知了！
+        if ($this->id == Auth::id() && get_class($instance) !== 'Illuminate\Auth\Notifications\VerifyEmail') {
+            return;
+        }
+
+        // 只有数据库类型通知才需提醒，直接发送 Email 或者其他的都 Pass
+        if (method_exists($instance, 'toDatabase')) {
+            $this->increment('notification_count');
+        }
+
+        $this->laravelNotify($instance);
+    }
+
+
+
 
     /**
      * The attributes that are mass assignable.

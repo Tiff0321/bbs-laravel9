@@ -5,6 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Category
+ * @property integer id ID
+ * @property string name 分类名称
+ * @property string description 分类描述
+ * @property integer post_count 文章数量
+ * @extends Model
+ */
 class Category extends Model
 {
     use HasFactory;

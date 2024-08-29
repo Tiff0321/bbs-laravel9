@@ -9,14 +9,14 @@ use Illuminate\Support\Carbon;
 /**
  * App\Models\Reply
  *
- * @property int $id
- * @property int $user_id
- * @property int $topic_id
- * @property string $content
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property-read Topic $topic
- * @property-read User $user
+ * @property int $id ID
+ * @property int $user_id 用户 ID
+ * @property int $topic_id 话题 ID
+ * @property string $content 内容
+ * @property Carbon|null $created_at 创建时间
+ * @property Carbon|null $updated_at 更新时间
+ * @property-read Topic $topic 话题
+ * @property-read User $user 用户
  */
 class Reply extends Model
 {
