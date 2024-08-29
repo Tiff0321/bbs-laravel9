@@ -6,6 +6,26 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * Class Topic
+ * @property integer id ID
+ * @property string title 标题
+ * @property string body 内容
+ * @property integer user_id 用户 ID
+ * @property integer category_id 分类 ID
+ * @property integer reply_count 回复数量
+ * @property integer view_count 查看数量
+ * @property integer last_reply_user_id 最后回复的用户 ID
+ * @property integer order 最后回复的用户 ID
+ * @property string excerpt 摘要
+ * @property string slug SEO 友好的 URI
+ * @property string created_at 创建时间
+ * @property string updated_at 创建时间
+ * @property-read Category category 分类
+ * @property-read User user 用户
+ * @property-read Reply replies 回复
+ * @extends \Illuminate\Database\Eloquent\Model
+ */
 class Topic extends Model
 {
     use HasFactory;
@@ -86,7 +106,7 @@ class Topic extends Model
      */
     public function replies(): HasMany
     {
-        return $this->hasMany(Reply::class);
+        return $this->hasMany(Reply::class)->orderby('created_at', 'desc');
     }
 
     public function link($params = []): string

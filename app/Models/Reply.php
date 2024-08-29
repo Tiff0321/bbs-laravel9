@@ -4,7 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
+/**
+ * App\Models\Reply
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property int $topic_id
+ * @property string $content
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Topic $topic
+ * @property-read User $user
+ */
 class Reply extends Model
 {
     use HasFactory;
