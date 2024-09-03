@@ -37,4 +37,15 @@ class ReplyObserver
         // 通知话题作者有新的评论
         $reply->topic->user->notify(new TopicReplied($reply));
     }
+
+    /**
+     * 事件监听：在回复被删除后，去更新话题的回复数量
+     *
+     * @param Reply $reply
+     * @return void
+     */
+    public function deleted(Reply $reply): void
+    {
+        $reply->topic->updateReplyCount();
+    }
 }
