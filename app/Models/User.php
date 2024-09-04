@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use Lab404\Impersonate\Models\Impersonate;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -25,16 +26,19 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string updated_at 更新时间
  * @property Topic topics 话题
  * @property Reply replies 回复
+ *
+ * @method static find(int $id)
+ *
+ * @package App\Models
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, HasRoles;
+    use HasApiTokens, HasFactory, HasRoles, Impersonate;
 
     // 引入消息通知相关功能
     use Notifiable {
         notify as protected laravelNotify;
     }
-
 
     /**
      * 通知用户，这里我们对 notify 方法进行了重写
@@ -57,8 +61,17 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->laravelNotify($instance);
     }
 
-
-
+    /**
+     * 标记消息通知为已读
+     *
+     * @return void
+     */
+    public function markAsRead(): void
+    {
+        $this->notification_count = 0;
+        $this->save();
+        $this->unreadNotifications->markAsRead();
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -101,7 +114,8 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * 判断当前用户是否是话题的作者
+     * 判断当前用户是否是话题或者回复的作者
+     * 准确的说是判断当前用户是否是某个模型（$model）的作者
      *
      * @param $model
      * @return bool
@@ -110,7 +124,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->id == $model->user_id;
     }
-
 
     /**
      * 用户和回复的关联
@@ -123,15 +136,20 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * 标记消息通知为已读
+     * 修改器，设置密码的时候自动加密
+     * 如果密码长度不是 60，就代表是明文密码，需要加密
+     * 当我们给属性赋值时，修改器会自动被调用
+     * 例如：$user->password = 'password';
      *
+     * @param $value
      * @return void
      */
-    public function markAsRead(): void
+    public function setPasswordAttribute($value): void
     {
-        $this->notification_count = 0;
-        $this->save();
-        $this->unreadNotifications->markAsRead();
-    }
+        if (strlen($value) != 60) {
+            $value = bcrypt($value);
+        }
 
+        $this->attributes['password'] = $value;
+    }
 }

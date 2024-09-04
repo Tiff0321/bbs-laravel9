@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Facades\Auth; @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -33,6 +34,13 @@
 
     @include('layouts._footer')
 </div>
+
+
+@auth
+    @if(app()->isLocal())
+        @include('layouts._impersonate')
+    @endif
+@endauth
 
 <!-- Scripts -->
 <script src="{{ mix('js/app.js') }}"></script>

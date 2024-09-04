@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Models\User;
+use Illuminate\Support\Facades\View;
+use Nette\Utils\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,5 +32,12 @@ class AppServiceProvider extends ServiceProvider
 
         // 设置 Paginator 的默认风格是 Bootstrap 风格
         \Illuminate\Pagination\Paginator::useBootstrap();
+
+        // 在视图间共享用户数据
+        if ($this->app->isLocal()) {
+            View::composer('layouts.app', function ($view) {
+                $view->with('users', User::all());
+            });
+        }
     }
 }
