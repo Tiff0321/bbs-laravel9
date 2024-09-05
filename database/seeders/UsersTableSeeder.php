@@ -23,7 +23,7 @@ class UsersTableSeeder extends Seeder
         $user->name = 'tiff';
         $user->email = '2325287709@qq.com';
         $user->password = bcrypt('11111111');
-        $user->avatar = 'http://localhost:8000/uploads/images/avatars/202408/26/12_1724600634_366E4rwBBr.png';
+        $user->avatar = 'http://localhost:8000/uploads/images/avatars/202409/05/200.jpg';
         $user->save();
 
                 // 初始化用户角色，将 ID 为 1 的用户指派为「站长」
