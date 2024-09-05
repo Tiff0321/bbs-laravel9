@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class NotificationsController extends Controller
 {
-    public function __constract()
+    public function __construct()
     {
         //只允许登录用户访问
         $this->middleware('auth');

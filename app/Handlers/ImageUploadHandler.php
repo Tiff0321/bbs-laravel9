@@ -60,7 +60,7 @@ class ImageUploadHandler
         }
 
         return [
-            'path' => config('app.url') . ":8000/$folder_name/$filename"
+            'path' => config('app.url') . "/$folder_name/$filename"
         ];
     }
 
