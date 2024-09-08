@@ -41,17 +41,17 @@ return array(
     'menu' => [
         '用户与权限' => [
             'users',
-            'roles',
+             'roles',
             'permissions',
         ],
-        '内容管理' => [
-            'categories',
-            'topics',
-            'replies'
-        ],
+         '内容管理' => [
+             'categories',
+             'topics',
+             'replies'
+         ],
         '站点管理' => [
-            'settings.site'
-        ]
+             'settings.site'
+         ]
     ],
 
     /*

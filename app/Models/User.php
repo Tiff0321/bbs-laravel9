@@ -34,7 +34,7 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, HasRoles, Impersonate;
+    use HasApiTokens, HasFactory, HasRoles, Impersonate,Traits\ActiveUserHelper;
 
     // 引入消息通知相关功能
     use Notifiable {
