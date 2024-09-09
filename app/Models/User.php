@@ -25,6 +25,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string remember_token 记住我
  * @property string created_at 创建时间
  * @property string updated_at 更新时间
+ * @property string last_activated_at 最后活跃时间
  * @property Topic topics 话题
  * @property Reply replies 回复
  *
@@ -34,7 +35,7 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, HasRoles, Impersonate,Traits\ActiveUserHelper;
+    use HasApiTokens, HasFactory, HasRoles, Impersonate,Traits\ActiveUserHelper, Traits\LastActivatedAtHelper;
 
     // 引入消息通知相关功能
     use Notifiable {
