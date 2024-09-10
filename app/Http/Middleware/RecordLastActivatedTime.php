@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
-class RecordLastActivedTime
+class RecordLastActivatedTime
 {
     /**
      * Handle an incoming request.
