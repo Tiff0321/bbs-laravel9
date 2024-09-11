@@ -15,9 +15,9 @@ class RecordLastActivatedTime
      *
      * @param Request $request
      * @param Closure(Request): (Response|RedirectResponse) $next
-     * @return Response|RedirectResponse
+     * @return Response|RedirectResponse|mixed
      */
-    public function handle(Request $request, Closure $next): Response|RedirectResponse
+    public function handle(Request $request, Closure $next): mixed
     {
         // 如果是已登录用户的话
         if (Auth::check()) {
